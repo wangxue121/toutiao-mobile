@@ -1,12 +1,10 @@
 <template>
-  <div class="layout-container">路由出口
-    <router-view />
-  </div>
+  <div class="look">视频</div>
 </template>
 
 <script>
 export default {
-  name: 'layout',
+  name: 'look',
   components: {},
   props: {},
   data () {
