@@ -1,10 +1,10 @@
 <template>
-  <div class="look">视频</div>
+  <div class="look-container">视频</div>
 </template>
 
 <script>
 export default {
-  name: 'look',
+  name: 'LookIndex',
   components: {},
   props: {},
   data () {

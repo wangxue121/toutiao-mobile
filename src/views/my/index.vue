@@ -1,10 +1,10 @@
 <template>
-  <div class="my">我的</div>
+  <div class="my-container">我的</div>
 </template>
 
 <script>
 export default {
-  name: 'my',
+  name: 'MyIndex',
   components: {},
   props: {},
   data () {

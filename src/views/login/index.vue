@@ -5,7 +5,7 @@
 
 <script>
 export default {
-  name: 'Login',
+  name: 'LoginIndex',
   components: {},
   props: {},
   data () {

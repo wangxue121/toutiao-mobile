@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <h3>APP</h3>
     <router-view />
   </div>
 </template>
@@ -8,7 +7,7 @@
 <script>
 import './style/index.less'
 export default {
-  name: 'App',
+  name: '',
   components: {},
   props: {},
   data () {
