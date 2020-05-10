@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import './style/index.less'
 export default {
   name: '',
   components: {},
