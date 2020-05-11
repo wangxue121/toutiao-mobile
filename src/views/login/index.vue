@@ -13,12 +13,12 @@ prevent 组织表单默认行为 -->
 <!-- validate-first是否在某一项校验不通过时停止校验 -->
 <!-- onFailed 表单验证失败会触发onFailed 事件 -->
 <van-form
-@submit='onLogin'
+@submit.prevent='onLogin'
 :show-error='false'
 :show-error-message ='false'
 validate-first
 @failed="onFailed"
-ref:login-for
+ref='login-form'
 >
   <van-field
     v-model="user.mobile"
@@ -26,6 +26,7 @@ ref:login-for
     left-icon="shouji"
     placeholder="请填写手机号"
     :rules="FormRules.mobile"
+    name="mobile"
     />
   <van-field
     v-model="user.code"
@@ -33,13 +34,23 @@ ref:login-for
     icon-prefix="toutiao"
     left-icon="yanzhengma"
     placeholder="请输入验证码"
-    :rules='FormRules.code'>
-    <!-- @validate 验证表单，支持传入name来验证表单项 -->
+    :rules='FormRules.code'
+    name="code">
+    <!--prevent 值默认行为 -->
+    <!--v-if  v-else 结构，就是只显示一个，显示倒计时或者发送验证码按钮-->
      <template #button>
+       <van-count-down
+        :time='60*1000'
+        v-if='isCountDownShow'
+        format="ss s"
+        @finish='isCountDownShow=false'
+       />
         <van-button
+        v-else
         class="send-btn"
         size="small"
-        @validate="onSendSms"
+        @click.prevent="onSendSms"
+        :loading='isSendSmsLoading'
       >获取验证码</van-button>
      </template>
     </van-field>
@@ -55,7 +66,8 @@ ref:login-for
 
 <script>
 import {
-  login
+  login,
+  sendSms
 } from '@/api/user'
 // 引入Toast轻提示
 import { Toast } from 'vant'
@@ -69,6 +81,9 @@ export default {
         mobile: '',
         code: ''
       },
+      isSendSmsLoading: false, // 发送验证码loading 点击后按钮禁用
+      isCountDownShow: false, // 倒计时
+      // 表单验证
       FormRules: {
         mobile: [
           { required: true, message: '请填写手机号' },
@@ -115,6 +130,41 @@ export default {
           position: 'top' // 提示消息出现在上部分，防止被手机键盘挡住
         })
       }
+    },
+    // 获取短信验证码
+    async onSendSms () {
+      try {
+        // 验证手机号
+        // validate验证表单，支持传入name来验证单个表单项
+        await this.$refs['login-form'].validate('mobile')
+        // 通过验证，发送验证码
+        this.isSendSmsLoading = true // 按钮loading状态 防止用户一直点
+        await sendSms(this.user.mobile)
+
+        // 短信发出，显示倒计时，按钮隐藏
+        this.isCountDownShow = true
+        // 倒计时结束，显示发送按钮（监视倒计时的finish事件处理）
+      } catch (err) {
+        console.log(err)
+        let message = '' // 定义一个message
+        if (err && err.response && err.response.status === 429) {
+          // 发送短信失败提示
+          message = '发送的太频繁了，稍后重试'
+        } else if (err.name === 'mobile') {
+          // 表单验证失败错误提示
+          message = err.message
+        } else {
+          // 其他一些错误
+          message = '发送失败，稍后重试'
+        }
+        // 用户提示
+        this.$toast({
+          message,
+          position: 'top'
+        })
+      }
+      // 无论验证码发送成功还是失败，最后都要关闭发送按钮的loading
+      this.isSendSmsLoading = false
     }
   }
 }
@@ -129,6 +179,7 @@ export default {
   .send-btn {
     background-color: #ccc;
     border-radius: 30px;
+    width: 80px;
   }
 }
 .login-btn-border{
