@@ -13,7 +13,7 @@ prevent 组织表单默认行为 -->
 <!-- validate-first是否在某一项校验不通过时停止校验 -->
 <!-- onFailed 表单验证失败会触发onFailed 事件 -->
 <van-form
-@submit.prevent='onLogin'
+@submit='onLogin'
 :show-error='false'
 :show-error-message ='false'
 validate-first
@@ -40,7 +40,7 @@ ref='login-form'
     <!--v-if  v-else 结构，就是只显示一个，显示倒计时或者发送验证码按钮-->
      <template #button>
        <van-count-down
-        :time='60*1000'
+        :time='10*1000'
         v-if='isCountDownShow'
         format="ss s"
         @finish='isCountDownShow=false'
@@ -104,18 +104,24 @@ export default {
     // 表单验证通过提交的事件
     async onLogin () {
       Toast.loading({
-        message: '加载中...', // 点击登录后提示信息
-        forbidClick: true // 禁止背景点击
+        message: '登录中...', // 点击登录后提示信息
+        forbidClick: true, // 禁止背景点击
+        duration: 0 // 展示时长(ms)，值为 0 时，toast 不会消失
       })
       // 1. 找到数据接口
       // 2. 封装请求方法
       // 3. 请求调用登录
       try {
-        const res = await login(this.user)
+        // const res = await login(this.user)
+        // console.log(res)
+        const { data } = await login(this.user) // 解构赋值
         // 4. 处理响应结果
-        console.log('登录成功', res)
+        // console.log('登录成功', res)
         Toast.success('恭喜你，登录成功')
-        // this.$toast('恭喜你，登录成功') // 组件中可以直接通过this.$toast 调用
+        // this.$toast.success('恭喜你，登录成功') // 组件中可以直接通过this.$toast 调用
+        // 登录成功后将后端返回的用户的登录状态（token等数据）放到Vuex容器中
+        // this.$store.commit('setUser',res.data.data)
+        this.$store.commit('setUser', data.data) // 解构赋值
       } catch (err) {
         console.log('登录失败', err)
         Toast.fail('很遗憾，登录失败,请输入正确的手机号或验证码')
