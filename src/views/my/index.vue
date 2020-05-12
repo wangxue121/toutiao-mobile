@@ -45,9 +45,17 @@
         </van-grid-item>
         </van-grid>
     </van-cell-group>
+
     <!-- 用户未登陆状态 -->
-    <van-cell-group>
+    <van-cell-group v-else class="not-login base-info">
+      <!-- 退出后点击登录，进入到登录页面 -->
+      <div @click="$router.push('/login')">
+         <img src="./头像.png" alt="" class="head-photo">
+      </div>
+       <p class="text">退出 / 登陆</p>
     </van-cell-group>
+    <!-- 用户未登陆状态 -->
+
      <van-grid column-num="2" class="van-grid">
         <van-grid-item icon-prefix='toutiao' icon="shoucang" text="收藏" />
         <van-grid-item icon-prefix='toutiao' icon="lishi" text="历史" />
@@ -159,6 +167,25 @@ export default {
     font-size: 14px;
     color: tomato;
   }
+  // 未登陆状态
+ .not-login{
+   padding-top: 5px;
+   box-sizing: border-box;
+   height: 180px;
+   background: url(./banner.png);
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+    .head-photo{
+    height: 70px;
+    width: 70px;
+  }
+  .text{
+    font-size: 14px;
+    color: #fff;
+  }
+ }
 
 }
 </style>
