@@ -38,6 +38,7 @@ ref='login-form'
     name="code">
     <!--prevent 值默认行为 -->
     <!--v-if  v-else 结构，就是只显示一个，显示倒计时或者发送验证码按钮-->
+    <!-- @finish 倒计时结束时触发  -->
      <template #button>
        <van-count-down
         :time='10*1000'
