@@ -12,8 +12,8 @@
         round
         slot="icon"
         fit="cover"
-        src="https://img.yzcdn.cn/vant/cat.jpeg" />
-      <div slot="title">昵称</div>
+        :src="currentUser.photo" />
+      <div slot="title">{{currentUser.name}}</div>
       <van-button
       round
       size="small">编辑资料</van-button>
@@ -21,25 +21,25 @@
         <van-grid :border="false">
           <van-grid-item>
           <div slot="text" class="text-wrap">
-            <div class="count">111</div>
+            <div class="count">{{currentUser.art_count}}</div>
             <div class="text">头条</div>
           </div>
         </van-grid-item>
         <van-grid-item>
           <div slot="text" class="text-wrap">
-            <div class="count">111</div>
+            <div class="count">{{currentUser.follow_count}}</div>
             <div class="text">关注</div>
           </div>
         </van-grid-item>
         <van-grid-item>
           <div slot="text" class="text-wrap">
-            <div class="count">111</div>
+            <div class="count">{{currentUser.fans_count}}</div>
             <div class="text">粉丝</div>
           </div>
         </van-grid-item>
         <van-grid-item>
           <div slot="text" class="text-wrap">
-            <div class="count">111</div>
+            <div class="count">{{currentUser.like_count}}</div>
             <div class="text">获赞</div>
           </div>
         </van-grid-item>
@@ -73,18 +73,23 @@
 
 <script>
 import { mapState } from 'vuex' // 目的是将容器中的数据映射到组件
+import { getCurrentUser } from '@/api/user/'
 export default {
   name: 'MyIndex',
   components: {},
   props: {},
   data () {
-    return {}
+    return {
+      currentUser: {}
+    }
   },
   computed: {
     ...mapState(['user']) // 将容器中的数据映射到组件
   },
   watch: {},
-  created () {},
+  created () {
+    this.loadCurrentUser()
+  },
   mounted () {},
   methods: {
     onLogout () {
@@ -101,6 +106,10 @@ export default {
           // 取消退出
           // on cancel
         })
+    },
+    async loadCurrentUser () {
+      const { data } = await getCurrentUser()
+      this.currentUser = data.data
     }
   }
 }
