@@ -1,6 +1,6 @@
 <template>
   <div class="my-container" >
-    <van-cell-group class="my-info">
+    <van-cell-group class="my-info" v-if="user">
       <van-cell
         class="base-info"
         title="单元格"
@@ -45,17 +45,26 @@
         </van-grid-item>
         </van-grid>
     </van-cell-group>
+    <!-- 用户未登陆状态 -->
+    <van-cell-group>
+    </van-cell-group>
      <van-grid column-num="2" class="van-grid">
         <van-grid-item icon-prefix='toutiao' icon="shoucang" text="收藏" />
         <van-grid-item icon-prefix='toutiao' icon="lishi" text="历史" />
       </van-grid>
      <van-cell title="消息通知" is-link to="/" />
     <van-cell title="小智同学" is-link to="/" />
-   <van-button type="default" block class="button-out">退出登录</van-button>
+   <van-button
+   v-if="user"
+   type="default"
+   block class="button-out"
+   @click="onLogout"
+   >退出登录</van-button>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex' // 目的是将容器中的数据映射到组件
 export default {
   name: 'MyIndex',
   components: {},
@@ -63,11 +72,29 @@ export default {
   data () {
     return {}
   },
-  computed: {},
+  computed: {
+    ...mapState(['user']) // 将容器中的数据映射到组件
+  },
   watch: {},
   created () {},
   mounted () {},
-  methods: {}
+  methods: {
+    onLogout () {
+      // 提示用户是否要退出
+      this.$dialog.confirm({
+        title: '退出提示',
+        message: '你确定要退出吗'
+      })
+        .then(() => {
+          // 确认退出，清除token
+          this.$store.commit('setUser', null)
+        })
+        .catch(() => {
+          // 取消退出
+          // on cancel
+        })
+    }
+  }
 }
 
 </script>

@@ -119,6 +119,8 @@ export default {
         // 4. 处理响应结果
         // console.log('登录成功', res)
         Toast.success('恭喜你，登录成功')
+        this.$router.push('my')
+
         // this.$toast.success('恭喜你，登录成功') // 组件中可以直接通过this.$toast 调用
         // 登录成功后将后端返回的用户的登录状态（token等数据）放到Vuex容器中
         // this.$store.commit('setUser',res.data.data)
