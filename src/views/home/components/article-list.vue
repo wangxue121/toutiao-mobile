@@ -1,4 +1,5 @@
 <template>
+<!-- 给这部分设置固定定位 -->
   <div class="article-list">
     <van-list
       v-model="loading"
@@ -57,4 +58,13 @@ export default {
 
 </script>
 <style scoped lang='less'>
+.article-list {
+  // 固定定位
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 50px;
+  top: 90px;
+  overflow-y: auto;
+}
 </style>

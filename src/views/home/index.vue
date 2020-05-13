@@ -22,7 +22,7 @@
         :title="channel.name"
         v-for="channel in channels"
         :key='channel.id'>
-        {{channel.name}}内容
+        <!-- {{channel.name}}内容 -->
         <!-- 标签页组件有一个功能，只有你第一次查看标签页的时候才会渲染里面的内容 -->
         <!-- 文章列表  使用-->
         <!-- 把遍历的channel 传给:channel -->
