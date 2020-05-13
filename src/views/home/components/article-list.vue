@@ -28,9 +28,9 @@ export default {
   },
   data () {
     return {
-      list: [],
-      loading: false,
-      finished: false
+      list: [], // 数据列表
+      loading: false, // 控制加载的loading状态
+      finished: false // 控制加载的结束状态，加载结束不再触发加载
     }
   },
   computed: {},
@@ -39,16 +39,18 @@ export default {
   mounted () {},
   methods: {
     onLoad () {
-      // 异步更新数据
-      // setTimeout 仅做示例，真实场景中一般为 ajax 请求
+      // 1.请求获取数据
       setTimeout(() => {
+        // 2. 把数据放到list数组中
+        // 注意值push进去的
         for (let i = 0; i < 10; i++) {
           this.list.push(this.list.length + 1)
         }
-        // 加载状态结束
-        this.loading = false
-        // 数据全部加载完成
+        // 3.设置加载状态结束，这样才可以开始下一下
+        this.loading = false // 控制加载状态，加载中自动为true
+        // 4.数据全部加载完成
         if (this.list.length >= 40) {
+          // 数据全部加载完成后，不再触发加载更多.
           this.finished = true
         }
       }, 1000)
