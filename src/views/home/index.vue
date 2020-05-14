@@ -13,7 +13,7 @@
     </van-nav-bar>
     <!-- 文章列表频道-->
     <!-- 标签页组件有一个功能，只有你第一次查看标签页的时候才会渲染里面的内容 -->
-    <van-tabs v-model="active">
+    <van-tabs v-model="active" class="channel-tabs">
       <!-- <van-tab title="标签 1">内容 1</van-tab>
       <van-tab title="标签 2">内容 2</van-tab>
       <van-tab title="标签 3">内容 3</van-tab>
@@ -28,13 +28,37 @@
         <!-- 把遍历的channel 传给:channel -->
       <article-list :channel="channel" />
       </van-tab>
+      <!-- 插槽 占位，不让最后一个选项被挡住 -->
+      <div slot="nav-right"
+      class="wap-nav-placeholder"></div>
+      <div
+        slot="nav-right"
+        class = "warp-nav-warp"
+        @click="show = true"
+        >
+        <van-icon name="wap-nav" />
+      </div>
     </van-tabs>
+    <!-- 弹出层 -->
+    <!-- 挂载到 body 节点下 -->
+    <!-- bottom 弹出位置 -->
+    <!-- close-icon-position 关闭图标位置 -->
+    <van-popup
+    class="edit-channel-popup"
+    v-model="show"
+    get-container="body"
+    style=" height: 100% "
+    position="bottom"
+    close-icon-position="top-left"
+    closeable
+    ></van-popup>
   </div>
 </template>
 
 <script>
 import { getUserChannels } from '@/api/user'
-import ArticleList from './components/article-list' // 加载
+import ArticleList from './components/article-list' // 加载首页内容页
+// import channelEdit from './components/channel-edit'
 export default {
   name: 'HomeIndex',
   components: {
@@ -44,7 +68,8 @@ export default {
   data () {
     return {
       active: 0,
-      channels: [] // 频道列表
+      channels: [], // 频道列表
+      show: false // 弹出层显示
     }
   },
   computed: {},
@@ -80,5 +105,32 @@ export default {
       font-size: 14px;
     }
   }
+  .warp-nav-warp {
+   position: fixed;
+   height: 33px;
+   width: 33px;
+   right: 0;
+   font-size: 25px;
+   margin-top: 10px;
+   margin-right: 0;
+   opacity: 0.6;
+   background-color: #fff;
+     // 汉堡按钮的左侧有一个渐变小竖线，可以用一个图片表示
+  &:before {
+    content: '';
+    width: 1px;
+    background: url("./line.png") no-repeat;
+    background-size: contain;
+    position: absolute;
+    left: -9px;
+    top: 0;
+    bottom: 0;
+  }
+  }
+  .wap-nav-placeholder {
+    width: 33px;
+    flex-shrink: 0;
+  }
+
 }
 </style>
