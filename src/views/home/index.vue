@@ -28,6 +28,7 @@
         <!-- 把遍历的channel 传给:channel -->
       <article-list :channel="channel" />
       </van-tab>
+      <!-- 汉堡按钮部分 -->
       <!-- 插槽 占位，不让最后一个选项被挡住 -->
       <div slot="nav-right"
       class="wap-nav-placeholder"></div>
@@ -51,18 +52,25 @@
     position="bottom"
     close-icon-position="top-left"
     closeable
-    ></van-popup>
+    >
+    <!-- 使用频道编辑组件 -->
+    <!-- 父传子 -->
+    <channel-edit
+    :user-channels="channels"
+    />
+    </van-popup>
   </div>
 </template>
 
 <script>
-import { getUserChannels } from '@/api/user'
+import { getUserChannels } from '@/api/channel'
 import ArticleList from './components/article-list' // 加载首页内容页
-// import channelEdit from './components/channel-edit'
+import channelEdit from './components/channel-edit'
 export default {
   name: 'HomeIndex',
   components: {
-    ArticleList // 注册
+    ArticleList, // 注册
+    channelEdit
   },
   props: {},
   data () {
@@ -131,6 +139,5 @@ export default {
     width: 33px;
     flex-shrink: 0;
   }
-
 }
 </style>
