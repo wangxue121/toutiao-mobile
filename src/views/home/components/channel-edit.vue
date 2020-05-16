@@ -14,12 +14,13 @@
     </van-cell-group>
     <van-grid :gutter="9" :border="false">
       <!-- 如果是编辑状态并且索引值不等于0 -->
+      <!-- 切换频道是在非编辑状态切换频道 -->
       <van-grid-item
       v-for="(channel,index) in userChannels"
       :key="index"
       :text="channel.name"
       :icon="(isEdit&&index !==0) ? 'clear' : '' "
-      @click="onUserChannelClick(index)">
+      @click="onUserChannelClick(channel, index)">
       </van-grid-item>
     </van-grid>
 
@@ -57,7 +58,7 @@ export default {
   data () {
     return {
       allChannels: [], // 所有频道列表
-      isEdit: false
+      isEdit: false // 控制编辑状态
     }
   },
   computed: {
@@ -92,7 +93,7 @@ export default {
       this.userChannels.pop(channel)
     },
     // 删除方法
-    onUserChannelClick (index) {
+    onUserChannelClick (channel, index) {
       // 判断按钮是编辑还是完成状态
       // 如果编辑状态（且不能为第一个，第一个不能删除），删除频道
       if (this.isEdit && index !== 0) {
@@ -108,7 +109,12 @@ export default {
     },
     // 切换频道
     switchChannel (index) {
-      console.log('切换频道')
+      // console.log('切换频道')
+      // 非编辑状态，执行切换频道操作
+      // 给父组件绑定自定义事件，会指定函数 （添加的事件子组件会触发）
+      // 在子组件，内部使用 this.$emit('自定义事件的名字','传递的数据')
+      this.$emit('update-active', index) // 切换频道
+      this.$emit('close') // 关闭弹出层
     }
   }
 }

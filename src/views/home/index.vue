@@ -57,7 +57,10 @@
     <!-- 父传子 -->
     <channel-edit
     :user-channels="channels"
+    @close="show = false"
+    @update-active='onUpdateActive'
     />
+    <!-- 上面是点击关闭弹层 -->
     </van-popup>
   </div>
 </template>
@@ -91,6 +94,9 @@ export default {
       // 获取频道数据
       const { data } = await getUserChannels()
       this.channels = data.data.channels
+    },
+    onUpdateActive (index) {
+      this.active = index // 激活频道
     }
   }
 }
