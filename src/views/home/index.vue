@@ -59,6 +59,7 @@
     :user-channels="channels"
     @close="show = false"
     @update-active='onUpdateActive'
+    :active="active"
     />
     <!-- 上面是点击关闭弹层 -->
     </van-popup>

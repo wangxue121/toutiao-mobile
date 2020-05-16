@@ -12,6 +12,9 @@
         round >{{isEdit ? '完成':'编辑'}}</van-button>
       </van-cell>
     </van-cell-group>
+      <!--
+      :class="{ active: index === 激活的频道 }"
+     -->
     <van-grid :gutter="9" :border="false">
       <!-- 如果是编辑状态并且索引值不等于0 -->
       <!-- 切换频道是在非编辑状态切换频道 -->
@@ -20,7 +23,9 @@
       :key="index"
       :text="channel.name"
       :icon="(isEdit&&index !==0) ? 'clear' : '' "
-      @click="onUserChannelClick(channel, index)">
+      @click="onUserChannelClick(channel, index)"
+      :class="{ active: index === active }"
+      >
       </van-grid-item>
     </van-grid>
 
@@ -52,6 +57,11 @@ export default {
     // 子组件接收父组件传的值(我的频道)
     userChannels: {
       type: Array, // 数组形式
+      required: true
+    },
+    // 设置点击高亮状态
+    active: {
+      type: Number,
       required: true
     }
   },
@@ -152,4 +162,8 @@ export default {
       color: #ccc;
     }
 }
+.active{
+    /deep/ .van-grid-item__text {
+      color: red !important;
+  }}
 </style>
