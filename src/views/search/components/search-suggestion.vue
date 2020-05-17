@@ -2,11 +2,12 @@
   <div class="search-suggestion">
     <van-cell-group>
       <van-cell
-      :title="suggest"
       icon="search"
       v-for="(suggest, index) in suggestions"
       :key=index
-      />
+      >
+      <div slot="title" v-html="hightlight(suggest)"></div>
+      </van-cell>
     </van-cell-group>
   </div>
 </template>
@@ -58,7 +59,20 @@ export default {
   },
   created () {},
   mounted () {},
-  methods: {}
+  methods: {
+    hightlight (suggest) {
+      // 正则表达式
+      // RegExp 是正则表达式的构造函数
+      // 参数1：字符串
+      // 参数2：匹配模式
+      // g全局 i是忽略大小写
+      // 返回值：正则对象
+      return suggest.replace(
+        new RegExp(this.searchText, 'gi'),
+        `<span style='color: red'>${this.searchText}</span>`
+      )
+    }
+  }
 }
 </script>
 <style scoped lang='less'>
