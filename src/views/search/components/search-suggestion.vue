@@ -13,6 +13,7 @@
 
 <script>
 import { getSearchSuggest } from '@/api/search'
+import { debounce } from 'lodash'
 export default {
   name: 'searchSuggestion',
   components: {},
@@ -37,15 +38,21 @@ export default {
     // }
     // 监视的完整写法
     searchText: {
-      // 当数据发生变化的时候将会执行hander 处理函数
-      async handler () {
+    // 当数据发生变化的时候将会执行hander 处理函数
+    // async handler () {
+
+      // debounce 函数
+      //  参数1：函数
+      //  参数2：时间
+      //  返回值：防抖处理的函数
+      handler: debounce(async function () {
       // 封装请求方法
       // 请求获取数据
       // 模板绑定展示
         const { data } = await getSearchSuggest(this.searchText)
         // console.log(data)
         this.suggestions = data.data.options
-      },
+      }, 500),
       immediate: true // 该回调将会在侦听开始之后被立即执行（vue.js 关方文档）
     }
   },
