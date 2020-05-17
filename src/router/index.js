@@ -15,6 +15,12 @@ const routes = [
     // 路由懒加载
     component: () => import('@/views/login')
   },
+  // 搜索页面
+  {
+    path: '/search',
+    name: 'search',
+    component: () => import('@/views/search')
+  },
   {
     path: '/',
     name: 'layout',

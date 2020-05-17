@@ -2,6 +2,7 @@
   <div class="home-container">
     <!-- van-nav-bar 导航栏 -->
     <van-nav-bar class="app-nav-bar">
+      <!-- to='/search'跳转到搜索页面 -->
       <van-button
         slot="title"
         class="search-btn"
@@ -9,6 +10,7 @@
         type="info"
         round
         size="small"
+        to='/search'
       >搜索</van-button>
     </van-nav-bar>
     <!-- 文章列表频道-->
