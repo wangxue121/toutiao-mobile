@@ -49,7 +49,9 @@
 </template>
 
 <script>
-import { getAllChannels } from '@/api/channel'
+import { getAllChannels, addUserChannel, deleteUserChannel } from '@/api/channel'
+import { mapState } from 'vuex'
+import { setItem } from '@/utils/storage'
 export default {
   name: 'channelEdit',
   components: {},
@@ -72,6 +74,8 @@ export default {
     }
   },
   computed: {
+    ...mapState(['user']),
+
     // 总的频道数 - 我的频道数 = 频道推荐
     // 数组的filter 方法 遍历数组，根据函数的返回值决定是否收集遍历项(返回true或false)
     // 返回值：一个数组，条件为true的元素
@@ -95,9 +99,20 @@ export default {
       const { data } = await getAllChannels()
       this.allChannels = data.data.channels
     },
-    onAdd (channel) {
+    async onAdd (channel) {
       // 在userChannel中添加点击项
       this.userChannels.push(channel)
+      if (this.user) {
+        // 如果登录保存到线上
+        await addUserChannel({
+          channels: [
+            { id: channel.id, seq: this.userChannels.length }
+          ]
+        })
+      } else {
+        // 如果没登录保存到本地存储
+        setItem('user-channels', this.userChannels)
+      }
     },
     onreduce (channel) {
       this.userChannels.pop(channel)
@@ -107,15 +122,28 @@ export default {
       // 判断按钮是编辑还是完成状态
       // 如果编辑状态（且不能为第一个，第一个不能删除），删除频道
       if (this.isEdit && index !== 0) {
-        this.deleteChannel(index)
+        this.deleteChannel(channel, index)
       // 如果没有显示编辑状态，点击频道把频道打开
       } else {
         this.switchChannel(index)
       }
     },
     // 删除频道
-    deleteChannel (index) {
+    async deleteChannel (channel, index) {
+      // 如果删除的是激活频道前面的
+      if (index <= this.active) {
+        // 更新激活频道索引
+        this.$emit('update-active', this.active - 1)
+      }
       this.userChannels.splice(index, 1)
+      // 数据持久化
+      if (this.user) {
+        // 登录了，持久化到线上
+        await deleteUserChannel(channel.id)
+      } else {
+        // 没有登录，持久化到本地
+        setItem('user-channels', this.userChannels)
+      }
     },
     // 切换频道
     switchChannel (index) {
