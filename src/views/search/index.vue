@@ -87,12 +87,17 @@ export default {
       // 由于后端存储的用户搜索历史记录太少了
       // 所以我们这里让后端返回的历史记录和本地的历史记录合并到一起
       // 如果用户已经登录
-      const searchHistories = getItem('search-histories') || []
+      let searchHistories = getItem('search-histories') || []
       if (this.user) {
         const { data } = await getSearchHistory()
-        console.log(data.data.keywords)
+        // console.log(data.data.keywords)
+        // 合并数组： [...数组, ...数组]
+        // 把 Set 转为数组：[...Set对象]
+        // 数组去重：[...new Set([...数组, ...数组])
+        // 本地存储和线上存储合并
+        searchHistories = [...new Set([...searchHistories, ...data.data.keywords])]
       }
-      console.log(searchHistories)
+      // console.log(searchHistories)
       this.searchHistories = searchHistories
     }
   }
