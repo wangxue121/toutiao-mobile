@@ -36,6 +36,9 @@
 import SearchHistory from './components/search-history'
 import SearchSuggestion from './components/search-suggestion'
 import SearchResult from './components/search-result'
+import { setItem, getItem } from '@/utils/storage'
+import { getSearchHistory } from '@/api/search'
+import { mapState } from 'vuex'
 export default {
   name: 'SearchPage',
   components: {
@@ -51,9 +54,13 @@ export default {
       searchHistories: [] // 搜索历史数据
     }
   },
-  computed: {},
+  computed: {
+    ...mapState(['user'])
+  },
   watch: {},
-  created () {},
+  created () {
+    this.loadSearchHistories()
+  },
   mounted () {},
   methods: {
     onSearch (searchText) {
@@ -67,9 +74,26 @@ export default {
       }
       // 把最新的搜索历史记录放到顶部
       this.searchHistories.unshift(searchText)
+
+      // 如果用户已经登录，则把搜索记录存储到线上
+      //   提示：只要我们调用获取搜索结果的数据接口，后端会给我们自动存储用户的搜索历史记录
+      // 如果没有登录，则把历史记录存储到本地
+      setItem('search-histories', this.searchHistories)
       // console.log('搜索结果')
       // 显示搜索结果
       this.isResultShow = true
+    },
+    async loadSearchHistories () {
+      // 由于后端存储的用户搜索历史记录太少了
+      // 所以我们这里让后端返回的历史记录和本地的历史记录合并到一起
+      // 如果用户已经登录
+      const searchHistories = getItem('search-histories') || []
+      if (this.user) {
+        const { data } = await getSearchHistory()
+        console.log(data.data.keywords)
+      }
+      console.log(searchHistories)
+      this.searchHistories = searchHistories
     }
   }
 }
