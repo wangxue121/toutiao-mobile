@@ -28,6 +28,7 @@
         title="性别"
         is-link
         :value="user.gender===0 ? '男':'女'"
+        @click="isEditGenderShow = true"
       />
       <van-cell
         title="生日"
@@ -39,8 +40,11 @@
         position="bottom"
         :style="{ height: '100%' }"
       >
+
       <!-- 修改昵称组件 -->
+      <!-- v-if条件渲染，为true渲染，为false销毁 -->
       <update-name
+        v-if="isEditNameShow"
         :name="user.name"
         @updata-name='user.name = $event'
         @close="isEditNameShow = false"
