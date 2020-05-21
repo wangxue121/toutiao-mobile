@@ -16,7 +16,10 @@
       <div slot="title">{{currentUser.name}}</div>
       <van-button
       round
-      size="small">编辑资料</van-button>
+      size="small"
+      to="/userProfile"
+      >
+      编辑资料</van-button>
       </van-cell>
         <van-grid :border="false">
           <van-grid-item>
