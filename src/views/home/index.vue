@@ -11,7 +11,8 @@
         round
         size="small"
         to='/search'
-      >搜索</van-button>
+      >
+      搜索</van-button>
     </van-nav-bar>
     <!-- 文章列表频道-->
     <!-- 标签页组件有一个功能，只有你第一次查看标签页的时候才会渲染里面的内容 -->
@@ -47,13 +48,13 @@
     <!-- bottom 弹出位置 -->
     <!-- close-icon-position 关闭图标位置 -->
     <van-popup
-    class="edit-channel-popup"
-    v-model="show"
-    get-container="body"
-    style=" height: 100% "
-    position="bottom"
-    close-icon-position="top-left"
-    closeable
+      class="edit-channel-popup"
+      v-model="show"
+      get-container="body"
+      style=" height: 100% "
+      position="bottom"
+      close-icon-position="top-left"
+      closeable
     >
     <!-- 使用频道编辑组件 -->
     <!-- 父传子 -->

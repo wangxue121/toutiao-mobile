@@ -2,10 +2,11 @@
 <!-- 给这部分设置固定定位 -->
   <div class="article-list">
     <van-pull-refresh
-    v-model="isRefreshLoading"
-    @refresh="onRefresh"
-    :success-text="refreshSuccessText"
-    :success-duration="900">
+      v-model="isRefreshLoading"
+      @refresh="onRefresh"
+      :success-text="refreshSuccessText"
+      :success-duration="900"
+    >
     <!-- load事件 -->
     <van-list
       v-model="isLoading"
@@ -14,10 +15,15 @@
       @load="onLoad"
     >
     <!-- key 不能直接绑定item  -->
-      <van-cell
+      <!-- <van-cell
       v-for="(article, index) in articles"
       :key="index"
-      :title="article.title" />
+      :title="article.title" /> -->
+      <article-item
+        v-for="(article, index) in articles"
+        :key="index"
+        :article= 'article'
+      />
     </van-list>
     </van-pull-refresh>
   </div>
@@ -25,9 +31,12 @@
 
 <script>
 import { getArticles } from '@/api/article'
+import ArticleItem from '@/components/article-item'
 export default {
   name: 'ArticleList',
-  components: {},
+  components: {
+    ArticleItem
+  },
   props: {
     // channel 传入props中
     channel: {
