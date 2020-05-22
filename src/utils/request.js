@@ -7,8 +7,8 @@ import store from '@/store/'
 
 const request = axios.create({
   // 基准地址
-  // baseURL: 'http://ttapi.research.itcast.cn/'
-  baseURL: 'http://api-toutiao-web.itheima.net'
+  baseURL: 'http://ttapi.research.itcast.cn/'
+  // baseURL: 'http://api-toutiao-web.itheima.net' // 备用接口
 })
 
 // 请求拦截器

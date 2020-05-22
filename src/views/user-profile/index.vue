@@ -75,11 +75,16 @@
       </van-popup>
       <!-- 修改头像照片 -->
         <van-popup
+        class="update-photo-popup"
         v-model="isEditPhotoShow"
         position="bottom"
         :style="{ height: '100%' }"
       >
       <update-photo
+        v-if='isEditPhotoShow'
+        :file='previewImage'
+        @close="isEditPhotoShow = false"
+        @update-photo="user.photo = $event"
       />
       </van-popup>
     </van-cell-group>
@@ -124,8 +129,11 @@ export default {
       console.log(111)
       // 展示弹出层  在弹出层里预览图片
       this.isEditPhotoShow = true
-      const blob = window.URL.createObjectURL(this.$refs.file.files[0])
-      this.previewImage = blob
+      // const blob = window.URL.createObjectURL(this.$refs.file.files[0])
+      // this.previewImage = blob
+
+      const file = this.$refs.file.files[0]
+      this.previewImage = file
 
       // 为了解决选择相同文件不触发的情况 手动清空选中file的value值
       this.$refs.file.value = ''
@@ -137,5 +145,8 @@ export default {
 <style scoped lang='less'>
 .van-popup {
   background-color: #f5f7f9;
+}
+.update-photo-popup {
+  background-color: #000;
 }
 </style>
