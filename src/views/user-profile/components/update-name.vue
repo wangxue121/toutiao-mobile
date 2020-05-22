@@ -15,10 +15,10 @@
       v-model="localName"
       rows="2"
       autosize
-      label="留言"
+      label="昵称"
       type="textarea"
       maxlength="10"
-      placeholder="请输入留言"
+      placeholder="请输入昵称"
       show-word-limit
       />
     </div>
@@ -62,10 +62,11 @@ export default {
           // 1.请求提交更新的用户昵称
           name: this.localName
         })
-        this.$toast.success('保存成功')
         // 更新成功  修改父组件的name   关闭弹出层
         this.$emit('updata-name', this.localName)
         this.$emit('close')
+
+        this.$toast.success('保存成功')
         // catch 捕获异常
       } catch (err) {
         if (err && err.resopnse && err.resopnse.status === 409) {
