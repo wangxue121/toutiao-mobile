@@ -48,10 +48,17 @@ const routes = [
       }
     ]
   },
+  // 用户个人资料
   {
     path: '/userProfile',
     name: 'userProfile',
     component: () => import('@/views/user-profile')
+  },
+  // 小智同学
+  {
+    path: '/user/chat',
+    name: 'user-chat',
+    component: () => import('@/views/user-chat')
   }
 ]
 

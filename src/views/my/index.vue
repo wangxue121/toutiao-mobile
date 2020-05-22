@@ -64,7 +64,7 @@
         <van-grid-item icon-prefix='toutiao' icon="lishi" text="历史" />
       </van-grid>
      <van-cell title="消息通知" is-link to="/" />
-    <van-cell title="小智同学" is-link to="/" />
+    <van-cell title="小智同学" is-link to="/user/chat" />
    <van-button
    v-if="user"
    type="default"
