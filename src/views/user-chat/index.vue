@@ -6,7 +6,8 @@
       left-arrow
       @click-left="$router.back()"
     />
-    <van-cell-group class="message-list">
+    <!-- 消息列表 -->
+    <van-cell-group class="message-list" ref="message-list">
       <!-- <van-cell title="单元格" />
       <van-cell title="单元格" />
       <van-cell title="单元格" />
@@ -51,6 +52,11 @@ export default {
   watch: {
     messages () {
       setItem('chat-messages', this.messages)
+      // 数据更新影响视图不是立即的
+      // 如果你要在操作数据之后立即操作数据影响的视图 DOM，那么最好把代码放到 nextTick 函数中
+      this.$nextTick(() => {
+        this.scrollTobottom()
+      })
     }
   },
   created () {
@@ -73,7 +79,10 @@ export default {
       this.messages.push(data)
     })
   },
-  mounted () {},
+  mounted () {
+    // 生命周期钩子函数，渲染模板
+    this.scrollTobottom()
+  },
   methods: {
     onSend () {
       const data = {
@@ -89,6 +98,13 @@ export default {
 
       // 发送消息之后清空文本框
       this.message = ''
+    },
+    scrollTobottom () {
+      // 确保滚动到最底部,只需要距离顶部的距离 = 可滚动的高度
+      // 获取dom
+      const list = this.$refs['message-list']
+      // 距离顶部的距离=可滚动的高度
+      list.scrollTop = list.scrollHeight
     }
   }
 }
@@ -103,5 +119,13 @@ export default {
   left: 0;
   right: 0;
   bottom: 0;
+}
+.message-list {
+  position: fixed;
+  top:46px ;
+  bottom:44px ;
+  left: 0;
+  right: 0;
+  overflow-y: auto;
 }
 </style>
