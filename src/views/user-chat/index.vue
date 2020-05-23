@@ -33,6 +33,7 @@
 
 <script>
 import io from 'socket.io-client'
+import { setItem, getItem } from '@/utils/storage'
 
 export default {
   name: 'UserChat',
@@ -42,11 +43,16 @@ export default {
     return {
       message: '', // 输入框的值
       socket: null, // WebSocket 通信对象
-      messages: [] // 存储发送和接收的数据
+      // messages: [] // 存储发送和接收的数据
+      messages: getItem('chat-messages') || [] // 存储发送和接收的数据,第一次没有数据所以||一个空数组
     }
   },
   computed: {},
-  watch: {},
+  watch: {
+    messages () {
+      setItem('chat-messages', this.messages)
+    }
+  },
   created () {
     // 建立连接
     const socket = io('http://ttapi.research.itcast.cn/')
