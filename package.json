@@ -13,6 +13,7 @@
     "core-js": "^3.6.4",
     "cropperjs": "^1.5.6",
     "lodash": "^4.17.15",
+    "socket.io-client": "^2.3.0",
     "vant": "^2.8.1",
     "vue": "^2.6.11",
     "vue-router": "^3.1.6",
@@ -46,5 +47,18 @@
       "vue-cli-service lint",
       "git add"
     ]
-  }
+  },
+  "description": "## Project setup ``` npm install ```",
+  "main": ".eslintrc.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wangxue121/toutiao-mobile.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wangxue121/toutiao-mobile/issues"
+  },
+  "homepage": "https://github.com/wangxue121/toutiao-mobile#readme"
 }
